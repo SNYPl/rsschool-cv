@@ -29,3 +29,16 @@ Hello! My name is David. I'm a junior web programmer. I specialize in front-end 
   - Year : _04/04/2021 - Current_
 
 _Projects_ : [Portfolio](https://snypl.github.io/MyPortfolio/)
+
+## **Education**
+
+- BUSINESS AND TECHNOLOGY UNIVERSITY - [01/01/2018 – 01/01/2019]
+
+* NEW HORIZON COURSE (PROGRAMMING IN HTML5/JAVASCRIPT/CSS) – [05/01/2021 - 10/05/2021]
+* GEOLAB (FRONT-END COURSES) – [25/05/2021 – CURRENT]
+
+## **Languages**
+
+- Georgian: Native
+- Russian: C1
+- English: B1
