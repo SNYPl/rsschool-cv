@@ -133,7 +133,7 @@ ul {
   border: none;
 }
 .header-info_container button:hover {
-  background: rgb(9, 56, 68);
+  background: rgba(0, 156, 194, 1);
 }
 .info-social {
   display: flex;
@@ -164,6 +164,9 @@ ul {
   flex-direction: column;
   width: 407px;
   margin-right: 250px;
+}
+.idea-info_content span {
+  font-weight: bold;
 }
 .idea-info_img {
   width: 407px;
@@ -206,7 +209,7 @@ ul {
   border: none;
 }
 .idea-info_content button:hover {
-  background: rgb(9, 56, 68);
+  background: rgba(0, 156, 194, 1);
 }
 
 .community {
@@ -248,6 +251,10 @@ ul {
 .community-img_arrows .arr {
   text-align: center;
   padding-top: 3px;
+  cursor: pointer;
+}
+.community-img_arrows .arr:hover {
+  opacity: 0.5;
 }
 .arrow-num {
   letter-spacing: 2px;
@@ -306,7 +313,7 @@ ul {
   border: none;
 }
 .implement-code_info button:hover {
-  background: rgb(9, 56, 68);
+  background: rgba(0, 156, 194, 1);
 }
 
 .sign-up {
@@ -349,7 +356,7 @@ ul {
   cursor: pointer;
 }
 .sign-up_input button:hover {
-  background-color: rgb(0, 219, 117);
+  background: rgba(0, 156, 194, 1);
 }
 .download-app {
   display: flex;
@@ -396,7 +403,7 @@ ul {
   cursor: pointer;
 }
 .download-app button:hover {
-  background-color: rgb(0, 219, 117);
+  background: rgba(0, 156, 194, 1);
 }
 
 .main-footer {
