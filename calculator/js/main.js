@@ -125,4 +125,6 @@ deleteAll.addEventListener("click", function () {
   sumNums = 0;
   currentSum.textContent = sumNums;
   prevSum.textContent = sumNums;
+
+  changed = false;
 });
