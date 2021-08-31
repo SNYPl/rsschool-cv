@@ -10,6 +10,8 @@ let allNum = [];
 let sumNums = 0;
 let sum = 0;
 let roundedSum;
+let changed = false;
+
 prevSum.textContent = 0;
 currentSum.textContent = 0;
 
@@ -20,10 +22,18 @@ function parse(str) {
 let sumNumber = function () {};
 for (let i = 0; i < btnNum.length; i++) {
   btnNum[i].addEventListener("click", function () {
-    if (btnNum[i].value > 0 && btnNum[i].value < 9) {
+    if (btnNum[i].value >= 0 && btnNum[i].value <= 9) {
       allNum.push(+btnNum[i].value);
     } else {
       allNum.push(btnNum[i].value);
+    }
+
+    for (let j = 0; j < allNum.length; j++) {
+      valid("-");
+      valid("+");
+      valid("/");
+      valid("*");
+      valid("^");
     }
 
     sumNums = allNum.join("");
@@ -36,13 +46,24 @@ for (let i = 0; i < btnNum.length; i++) {
         sumNums = sumNums.replace("^", "**");
       }
 
+      if (sumNums.includes("-") && sumNums.includes("**") && changed == false) {
+        changed = true;
+        exponentation();
+      }
       sum = parse(sumNums);
       let sumString = sum.toString();
       let roundStringNum = sumString.substring(0, 10);
+
       let newSum = parse(roundStringNum);
 
       roundedSum = Math.round(newSum * 100) / 100;
 
+      if (roundedSum == Infinity || !roundedSum) {
+        currentSum.textContent = "Error";
+        allNum = [];
+        prevSum.textContent = "Error";
+        return;
+      }
       currentSum.textContent = roundedSum;
       allNum = [roundedSum];
     });
@@ -51,14 +72,40 @@ for (let i = 0; i < btnNum.length; i++) {
   });
 }
 
+function valid(operator) {
+  if (
+    allNum[allNum.length - 1] == operator &&
+    allNum[allNum.length - 2] == operator
+  ) {
+    allNum.pop();
+  }
+}
+
+function exponentation() {
+  let newArr = sumNums.split("");
+  newArr.unshift("(");
+  let index = newArr.indexOf("*");
+  newArr.splice(index, 0, ")");
+
+  sumNums = newArr.join("");
+}
+
 function squares() {
   sumNums = allNum.join("");
   sum = parse(sumNums);
+
   roundedSum = Math.sqrt(sum);
 
+  if (!Math.sign(roundedSum)) {
+    currentSum.textContent = "Error";
+    return;
+  }
+
+  let fixedNum = roundedSum.toFixed();
   prevSum.textContent = `√(${sum})`;
-  currentSum.textContent = roundedSum;
-  allNum = [roundedSum];
+
+  currentSum.textContent = fixedNum;
+  allNum = [fixedNum];
 }
 
 deleteNum.addEventListener("click", function () {
