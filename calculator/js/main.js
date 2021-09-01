@@ -29,6 +29,17 @@ for (let i = 0; i < btnNum.length; i++) {
     }
 
     for (let j = 0; j < allNum.length; j++) {
+      if (allNum[j] == 0 && allNum[j - 1] == "-") {
+        let indx = allNum.indexOf("-");
+
+        if (
+          allNum[indx + 2] != "." &&
+          allNum[indx + 2] != undefined &&
+          indx < 3
+        ) {
+          allNum.splice(indx, 1);
+        }
+      }
       valid("-");
       valid("+");
       valid("/");
@@ -58,7 +69,12 @@ for (let i = 0; i < btnNum.length; i++) {
 
       roundedSum = Math.round(newSum * 100) / 100;
 
-      if (roundedSum == Infinity || !roundedSum) {
+      if (
+        roundedSum == Infinity ||
+        roundedSum == NaN ||
+        roundedSum == undefined ||
+        roundedSum === false
+      ) {
         currentSum.textContent = "Error";
         allNum = [];
         prevSum.textContent = "Error";
