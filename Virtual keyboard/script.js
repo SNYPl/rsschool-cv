@@ -42,7 +42,7 @@ const keyboardData = [
   { key: "'", code: "Quote", KeyCode: 222, second: "" },
   { key: "Enter", code: "Enter", KeyCode: 13, second: "" },
   { key: "Shift", code: "ShiftLeft", KeyCode: 16, second: "" },
-  { key: "/", code: "Slash", KeyCode: 191, second: "" },
+  { key: "\\", code: "Slash", KeyCode: 191, second: "" },
   { key: "z", code: "KeyZ", KeyCode: 90, second: "" },
   { key: "x", code: "KeyX", KeyCode: 88, second: "" },
   { key: "c", code: "KeyC", KeyCode: 67, second: "" },
@@ -53,7 +53,7 @@ const keyboardData = [
   { key: ".", code: "Period", KeyCode: 190, second: "" },
   { key: ",", code: "Comma", KeyCode: 188, second: "" },
   { key: "/", code: "Slash", KeyCode: 191, second: "" },
-  { key: "ArrowUp", code: "ArrowUp", KeyCode: 38, second: "" },
+  { key: "▲", code: "ArrowUp", KeyCode: 38, second: "" },
   { key: "Shift", code: "ShiftRight", KeyCode: 16, second: "" },
   { key: "Ctrl", code: "ControlLeft", KeyCode: 17, second: "" },
   { key: "Win", code: "MetaLeft", KeyCode: 91, second: "" },
@@ -61,9 +61,9 @@ const keyboardData = [
   { key: `\xa0`, code: "Space", KeyCode: 32, second: "" },
   { key: "Alt", code: "AltRight", KeyCode: 18, second: "" },
   { key: "Ctrl", code: "ControlRight", KeyCode: 17, second: "" },
-  { key: "ArrowLeft", code: "ArrowLeft", KeyCode: 37, second: "" },
-  { key: "ArrowDown", code: "ArrowDown", KeyCode: 40, second: "" },
-  { key: "ArrowRight", code: "ArrowRight", KeyCode: 39, second: "" },
+  { key: "◄", code: "ArrowLeft", KeyCode: 37, second: "" },
+  { key: "▼", code: "ArrowDown", KeyCode: 40, second: "" },
+  { key: "►", code: "ArrowRight", KeyCode: 39, second: "" },
 ];
 
 const body = document.getElementById("body");
@@ -74,8 +74,9 @@ let keyboard = document.createElement("div");
 container.classList.add("container");
 textArea.classList.add("container-textarea");
 keyboard.classList.add("container-keyboard");
+// textArea.disabled = "true";
+// textArea.autofocus = true;
 
-textArea.disabled = "true";
 body.insertAdjacentElement("afterbegin", container);
 
 container.insertAdjacentElement("afterbegin", textArea);
@@ -93,9 +94,23 @@ let keys = [...btns];
 let wordsArray = [];
 let keyWords;
 
+body.addEventListener("keydown", function (e) {
+  keys.map((item) => {
+    if (item.id == e.code) {
+      item.classList.add("highlited");
+      setTimeout(function () {
+        item.classList.remove("highlited");
+      }, 2000);
+    }
+  });
+});
+
 keys.map((item) => {
   keyWords = item.getAttribute("data-value");
-  item.addEventListener("click", function () {
+  item.addEventListener("click", function (e) {
+    let start = textArea.selectionStart;
+    let end = textArea.selectionEnd;
+
     if (item) {
       item.classList.add("highlited");
       setTimeout(function () {
@@ -107,7 +122,12 @@ keys.map((item) => {
 
     if (keyWords === "Backspace") {
       keyWords = ``;
-      wordsArray.pop();
+      wordsArray.splice(start - 1, 1);
+      //   textArea.focus();
+    } else if (keyWords === "Del") {
+      keyWords = ``;
+      wordsArray.splice(start, 1);
+      //   textArea.focus();
     }
 
     if (keyWords === "") {
@@ -115,7 +135,22 @@ keys.map((item) => {
       return;
     }
 
+    if (keyWords === "Enter") {
+      keyWords = "\n";
+    }
+
+    if (keyWords === "Tab") {
+      keyWords = "\t";
+      for (var i = 0; i < keys.length; i++) {
+        if (document.activeElement.id == keys[i].id && i + 1 < keys.length) {
+          keys[i + 1].focus();
+          break;
+        }
+      }
+    }
+
     wordsArray.push(keyWords);
     textArea.value = wordsArray.join("");
+    textArea.focus();
   });
 });
