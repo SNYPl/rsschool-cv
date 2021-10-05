@@ -39,62 +39,62 @@ body {
   margin: 10px 10px 0 0;
 }
 
-.Backspace {
+#Backspace {
   width: 100px;
   background-color: #1c232e;
   color: #808080;
 }
 
-.Tab {
+#Tab {
   width: 50px;
   background-color: #1c232e;
   color: #808080;
 }
 
-.CapsLock {
+#CapsLock {
   width: 100px;
   background-color: #1c232e;
   color: #808080;
 }
 
-.Enter {
+#Enter {
   width: 90px;
   background-color: #1c232e;
   color: #808080;
 }
 
-.ShiftLeft {
+#ShiftLeft {
   width: 100px;
   background-color: #1c232e;
   color: #808080;
 }
 
-.ControlLeft,
-.ControlRight {
+#ControlLeft,
+#ControlRight {
   width: 70px;
   background-color: #1c232e;
   color: #808080;
 }
-.Backquote {
+#Backquote {
   background-color: #242424;
 }
-.ShiftRight,
-.ArrowLeft,
-.ArrowRight,
-.ArrowDown,
-.ArrowUp,
-.Delete,
-.MetaLeft,
-.AltLeft,
-.AltRight {
+#ShiftRight,
+#ArrowLeft,
+#ArrowRight,
+#ArrowDown,
+#ArrowUp,
+#Delete,
+#MetaLeft,
+#AltLeft,
+#AltRight {
   background-color: #1c232e;
   color: #808080;
 }
 
-.Space {
+#Space {
   width: 290px;
 }
 
 .highlited {
-  background-color: #5571ee;
+  background-color: #5571ee !important;
 }

@@ -83,7 +83,7 @@ container.insertAdjacentElement("afterbegin", textArea);
 container.insertAdjacentElement("beforeend", keyboard);
 
 keyboardData.map((item) => {
-  let keys = `<div class='key ${item.code}' data-value=${item.key}>${item.key}</div>`;
+  let keys = `<div class='key' id='${item.code}' data-value=${item.key}>${item.key}</div>`;
 
   keyboard.insertAdjacentHTML("beforeend", keys);
 });
@@ -91,30 +91,31 @@ keyboardData.map((item) => {
 let btns = document.querySelectorAll(".key");
 let keys = [...btns];
 let wordsArray = [];
-let words = [];
+let keyWords;
 
-body.addEventListener("keydown", function (e) {
-  keys.map((item) => {
-    if (item.classList.contains(e.code)) {
+keys.map((item) => {
+  keyWords = item.getAttribute("data-value");
+  item.addEventListener("click", function () {
+    if (item) {
       item.classList.add("highlited");
       setTimeout(function () {
         item.classList.remove("highlited");
       }, 2000);
-
-      let keyWords = item.getAttribute("data-value");
-
-      if (keyWords === "Backspace") {
-        keyWords = ``;
-        wordsArray.pop();
-      }
-
-      if (keyWords === "") {
-        textArea.value = wordsArray.join("");
-        return;
-      }
-
-      wordsArray.push(keyWords);
-      textArea.value = wordsArray.join("");
     }
+
+    keyWords = item.getAttribute("data-value");
+
+    if (keyWords === "Backspace") {
+      keyWords = ``;
+      wordsArray.pop();
+    }
+
+    if (keyWords === "") {
+      textArea.value = wordsArray.join("");
+      return;
+    }
+
+    wordsArray.push(keyWords);
+    textArea.value = wordsArray.join("");
   });
 });
