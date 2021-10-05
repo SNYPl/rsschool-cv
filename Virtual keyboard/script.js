@@ -67,21 +67,21 @@ const keyboardData = [
 ];
 
 const body = document.getElementById("body");
-let container = document.createElement("div");
-let textArea = document.createElement("textarea");
-let keyboard = document.createElement("div");
+const container = document.createElement("div");
+const textArea = document.createElement("textarea");
+const keyboard = document.createElement("div");
 
 container.classList.add("container");
 textArea.classList.add("container-textarea");
 keyboard.classList.add("container-keyboard");
-// textArea.disabled = "true";
-// textArea.autofocus = true;
 
 body.insertAdjacentElement("afterbegin", container);
 
 container.insertAdjacentElement("afterbegin", textArea);
 
 container.insertAdjacentElement("beforeend", keyboard);
+
+textArea.disabled = "true";
 
 keyboardData.map((item) => {
   let keys = `<div class='key' id='${item.code}' data-value=${item.key}>${item.key}</div>`;
@@ -96,21 +96,21 @@ let keyWords;
 
 body.addEventListener("keydown", function (e) {
   keys.map((item) => {
-    if (item.id == e.code) {
+    if (item.id === e.code) {
       item.classList.add("highlited");
+
       setTimeout(function () {
         item.classList.remove("highlited");
       }, 2000);
+
+      keyInteractives(item);
     }
   });
+  return;
 });
 
 keys.map((item) => {
-  keyWords = item.getAttribute("data-value");
-  item.addEventListener("click", function (e) {
-    let start = textArea.selectionStart;
-    let end = textArea.selectionEnd;
-
+  item.addEventListener("click", function () {
     if (item) {
       item.classList.add("highlited");
       setTimeout(function () {
@@ -118,39 +118,49 @@ keys.map((item) => {
       }, 2000);
     }
 
-    keyWords = item.getAttribute("data-value");
-
-    if (keyWords === "Backspace") {
-      keyWords = ``;
-      wordsArray.splice(start - 1, 1);
-      //   textArea.focus();
-    } else if (keyWords === "Del") {
-      keyWords = ``;
-      wordsArray.splice(start, 1);
-      //   textArea.focus();
-    }
-
-    if (keyWords === "") {
-      textArea.value = wordsArray.join("");
-      return;
-    }
-
-    if (keyWords === "Enter") {
-      keyWords = "\n";
-    }
-
-    if (keyWords === "Tab") {
-      keyWords = "\t";
-      for (var i = 0; i < keys.length; i++) {
-        if (document.activeElement.id == keys[i].id && i + 1 < keys.length) {
-          keys[i + 1].focus();
-          break;
-        }
-      }
-    }
-
-    wordsArray.push(keyWords);
-    textArea.value = wordsArray.join("");
-    textArea.focus();
+    keyInteractives(item);
   });
 });
+
+function keyInteractives(item) {
+  let start = textArea.selectionStart;
+  keyWords = item.getAttribute("data-value");
+  if (keyWords === "Backspace") {
+    keyWords = ``;
+    wordsArray.splice(start - 1, 1);
+  } else if (keyWords === "Del") {
+    keyWords = ``;
+    wordsArray.splice(start, 1);
+  }
+
+  if (keyWords === "Alt") {
+    keyWords = ``;
+    textArea.focus();
+  }
+
+  if (keyWords === "") {
+    textArea.value = wordsArray.join("");
+    textArea.focus();
+    return;
+  }
+
+  if (keyWords === "Enter") {
+    keyWords = "\n";
+  }
+
+  if (keyWords === "Tab") {
+    keyWords = "\t";
+    for (var i = 0; i < keys.length; i++) {
+      if (document.activeElement.id == keys[i].id && i + 1 < keys.length) {
+        keys[i + 1].focus();
+        break;
+      }
+    }
+  }
+
+  wordsArray.push(keyWords);
+
+  textArea.value = wordsArray.join("");
+  // textArea.focus();
+  return;
+}

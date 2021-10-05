@@ -38,6 +38,10 @@ body {
   align-items: center;
   margin: 10px 10px 0 0;
   transition: 0.4s ease-out;
+  cursor: pointer;
+}
+.key:hover {
+  background-color: #405169 !important;
 }
 
 #Backspace {
