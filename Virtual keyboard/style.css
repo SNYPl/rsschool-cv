@@ -111,9 +111,11 @@ body {
 .highlited {
   background-color: #5571ee !important;
   transform: scale(1.1);
+  color: #fff !important;
 }
 
 .capsLocked {
   background-color: #5571ee !important;
   transform: scale(1.1);
+  color: #fff !important;
 }

@@ -76,9 +76,7 @@ textArea.classList.add("container-textarea");
 keyboard.classList.add("container-keyboard");
 
 body.insertAdjacentElement("afterbegin", container);
-
 container.insertAdjacentElement("afterbegin", textArea);
-
 container.insertAdjacentElement("beforeend", keyboard);
 
 textArea.disabled = "true";
@@ -98,14 +96,35 @@ let capsLock = document.getElementById("CapsLock");
 
 body.addEventListener("keydown", function (e) {
   keys.map((item) => {
+    keyWords = item.getAttribute("data-value");
     if (item.id === e.code) {
       item.classList.add("highlited");
 
-      setTimeout(function () {
-        item.classList.remove("highlited");
-      }, 1500);
+      if (item.getAttribute("data-value") === "Shift") {
+        shiftPressed = true;
+      }
+
+      if (item.getAttribute("data-value") === "Tab") {
+        setTimeout(function () {
+          item.classList.remove("highlited");
+        }, 1500);
+      }
 
       keyInteractives(item);
+    }
+  });
+  return;
+});
+
+body.addEventListener("keyup", function (e) {
+  keys.map((item) => {
+    keyWords = item.getAttribute("data-value");
+    if (item.id === e.code) {
+      item.classList.remove("highlited");
+
+      if (item.getAttribute("data-value") === "Shift") {
+        shiftPressed = false;
+      }
     }
   });
   return;
@@ -119,7 +138,12 @@ keys.map((item) => {
         item.classList.remove("highlited");
       }, 1500);
     }
-
+    if (item.getAttribute("data-value") === "Shift") {
+      shiftPressed = false;
+      setTimeout(function () {
+        shiftPressed = false;
+      }, 1500);
+    }
     keyInteractives(item);
   });
 });
@@ -128,23 +152,20 @@ function keyInteractives(item) {
   let start = textArea.selectionStart;
   keyWords = item.getAttribute("data-value");
 
-  if (capsLock.classList.contains("capsLocked")) {
-    keyWords = keyWords.toUpperCase();
+  if (keyWords === "Caps") {
+    item.classList.toggle("capsLocked");
+    keyWords = "";
   }
 
   switch (keyWords) {
-    case "Backspace":
+    case "Backspace" || "BACKSPACE":
       keyWords = ``;
       wordsArray.splice(start - 1, 1);
-      break;
+
     case "Del":
       keyWords = ``;
       wordsArray.splice(start, 1);
-      break;
-    case "Caps":
-      item.classList.toggle("capsLocked");
-      keyWords = "";
-      break;
+
     case "Shift":
       shiftPressed = true;
       keyWords = "";
@@ -175,18 +196,17 @@ function keyInteractives(item) {
       break;
   }
 
+  if (capsLock.classList.contains("capsLocked")) {
+    keyWords = keyWords.toUpperCase();
+  }
+
   if (shiftPressed && item.firstElementChild.textContent != "") {
     keyWords = item.firstElementChild.textContent;
   }
   if (shiftPressed) {
     keyWords = keyWords.toUpperCase();
-
-    setTimeout(function () {
-      shiftPressed = false;
-    }, 2000);
   }
 
   wordsArray.push(keyWords);
-
   textArea.value = wordsArray.join("");
 }
