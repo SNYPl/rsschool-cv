@@ -39,9 +39,17 @@ body {
   margin: 10px 10px 0 0;
   transition: 0.4s ease-out;
   cursor: pointer;
+  position: relative;
 }
 .key:hover {
   background-color: #405169 !important;
+}
+
+.secondaryKey {
+  position: absolute;
+  left: 3px;
+  top: 2px;
+  font-size: 14px;
 }
 
 #Backspace {
@@ -101,6 +109,11 @@ body {
 }
 
 .highlited {
+  background-color: #5571ee !important;
+  transform: scale(1.1);
+}
+
+.capsLocked {
   background-color: #5571ee !important;
   transform: scale(1.1);
 }

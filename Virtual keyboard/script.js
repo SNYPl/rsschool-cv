@@ -26,7 +26,7 @@ const keyboardData = [
   { key: "p", code: "KeyP", KeyCode: 80, second: "" },
   { key: "[", code: "BracketLeft", KeyCode: 219, second: "" },
   { key: "]", code: "BracketRight", KeyCode: 221, second: "" },
-  { key: "\\", code: "Backslash", KeyCode: 220, second: "|" },
+  { key: "\\", code: "Backslash", KeyCode: 220, second: "/" },
   { key: "Del", code: "Delete", KeyCode: 46, second: "" },
   { key: "Caps Lock", code: "CapsLock", KeyCode: 20, second: "" },
   { key: "a", code: "KeyA", KeyCode: 65, second: "" },
@@ -84,7 +84,7 @@ container.insertAdjacentElement("beforeend", keyboard);
 textArea.disabled = "true";
 
 keyboardData.map((item) => {
-  let keys = `<div class='key' id='${item.code}' data-value=${item.key}>${item.key}</div>`;
+  let keys = `<div class='key' id='${item.code}' data-value=${item.key}><span class="secondaryKey">${item.second}</span>${item.key}</div>`;
 
   keyboard.insertAdjacentHTML("beforeend", keys);
 });
@@ -93,6 +93,8 @@ let btns = document.querySelectorAll(".key");
 let keys = [...btns];
 let wordsArray = [];
 let keyWords;
+let shiftPressed = false;
+let capsLock = document.getElementById("CapsLock");
 
 body.addEventListener("keydown", function (e) {
   keys.map((item) => {
@@ -101,7 +103,7 @@ body.addEventListener("keydown", function (e) {
 
       setTimeout(function () {
         item.classList.remove("highlited");
-      }, 2000);
+      }, 1500);
 
       keyInteractives(item);
     }
@@ -115,7 +117,7 @@ keys.map((item) => {
       item.classList.add("highlited");
       setTimeout(function () {
         item.classList.remove("highlited");
-      }, 2000);
+      }, 1500);
     }
 
     keyInteractives(item);
@@ -125,42 +127,66 @@ keys.map((item) => {
 function keyInteractives(item) {
   let start = textArea.selectionStart;
   keyWords = item.getAttribute("data-value");
-  if (keyWords === "Backspace") {
-    keyWords = ``;
-    wordsArray.splice(start - 1, 1);
-  } else if (keyWords === "Del") {
-    keyWords = ``;
-    wordsArray.splice(start, 1);
+
+  if (capsLock.classList.contains("capsLocked")) {
+    keyWords = keyWords.toUpperCase();
   }
 
-  if (keyWords === "Alt") {
-    keyWords = ``;
-    textArea.focus();
-  }
-
-  if (keyWords === "") {
-    textArea.value = wordsArray.join("");
-    textArea.focus();
-    return;
-  }
-
-  if (keyWords === "Enter") {
-    keyWords = "\n";
-  }
-
-  if (keyWords === "Tab") {
-    keyWords = "\t";
-    for (var i = 0; i < keys.length; i++) {
-      if (document.activeElement.id == keys[i].id && i + 1 < keys.length) {
-        keys[i + 1].focus();
-        break;
+  switch (keyWords) {
+    case "Backspace":
+      keyWords = ``;
+      wordsArray.splice(start - 1, 1);
+      break;
+    case "Del":
+      keyWords = ``;
+      wordsArray.splice(start, 1);
+      break;
+    case "Caps":
+      item.classList.toggle("capsLocked");
+      keyWords = "";
+      break;
+    case "Shift":
+      shiftPressed = true;
+      keyWords = "";
+      break;
+    case "Alt":
+      keyWords = ``;
+      break;
+    case "Win":
+      keyWords = ``;
+      break;
+    case "Ctrl":
+      keyWords = ``;
+      break;
+    case "":
+      textArea.value = wordsArray.join("");
+      break;
+    case "Enter":
+      keyWords = "\n";
+      break;
+    case "Tab":
+      keyWords = "\t";
+      for (var i = 0; i < keys.length; i++) {
+        if (document.activeElement.id == keys[i].id && i + 1 < keys.length) {
+          keys[i + 1].focus();
+          break;
+        }
       }
-    }
+      break;
+  }
+
+  if (shiftPressed && item.firstElementChild.textContent != "") {
+    keyWords = item.firstElementChild.textContent;
+  }
+  if (shiftPressed) {
+    keyWords = keyWords.toUpperCase();
+
+    setTimeout(function () {
+      shiftPressed = false;
+    }, 2000);
   }
 
   wordsArray.push(keyWords);
 
   textArea.value = wordsArray.join("");
-  // textArea.focus();
-  return;
 }
