@@ -210,12 +210,13 @@ function keyInteractives(item) {
   }
 
   if (keyWords === "Tab" || keyWords === "ტაბ") {
-    keyWords = "";
-    for (let i = 0; i < 6; i++) {
-      wordsArray.push("\xa0");
+    keyWords = "\t";
+    for (var i = 0; i < keys.length; i++) {
+      if (document.activeElement.id == keys[i].id && i + 1 < keys.length) {
+        keys[i + 1].focus();
+        break;
+      }
     }
-    keyboard.focus();
-    return;
   }
 
   if (keyWords === "") {
