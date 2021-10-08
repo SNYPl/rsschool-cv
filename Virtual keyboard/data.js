@@ -98,7 +98,7 @@ const kaInputs = [
   { key: "დელ", code: "Delete", KeyCode: 46, second: "" },
   { key: "Caps Lock", code: "CapsLock", KeyCode: 20, second: "" },
   { key: "ა", code: "KeyA", KeyCode: 65, second: "" },
-  { key: "ს", code: "KeyS", KeyCode: 83, second: "" },
+  { key: "ს", code: "KeyS", KeyCode: 83, second: "შ" },
   { key: "დ", code: "KeyD", KeyCode: 68, second: "" },
   { key: "ფ", code: "KeyF", KeyCode: 70, second: "" },
   { key: "გ", code: "KeyG", KeyCode: 71, second: "" },
