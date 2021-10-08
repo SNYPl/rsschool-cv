@@ -119,3 +119,10 @@ body {
   transform: scale(1.1);
   color: #fff !important;
 }
+
+#mySelect {
+  margin-bottom: 50px;
+  width: 200px;
+  padding: 10px;
+  margin-right: 300px;
+}
